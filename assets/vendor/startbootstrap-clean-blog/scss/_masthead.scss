@@ -1,0 +1,161 @@
+.header {
+  height: 100vh;
+  background-image: 
+  linear-gradient(to right bottom, 
+   rgba(51, 66, 202, 0.7),
+   rgba(30, 108, 217, 0.7)),
+   url('../../../../img/index-bg.jpg');
+  background-size: cover;
+  background-position: top;
+  position: relative;
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+}
+
+.text-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.heading-primary {
+  color: #fff;
+  text-transform: uppercase;
+  backface-visibility: hidden;
+  margin-bottom: 30px;
+}
+
+.heading-primary-main {
+  display: block;
+  font-size: 46px;
+  font-weight: 400;
+  letter-spacing: 4px;
+}
+
+.btn-resume {
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 10px 20px;
+  display: inline-block;
+  border-radius: 100px;
+  transition: all .2s;
+  position: relative;
+  font-size: 14px;
+  border-color: white;
+  border-width: 1px;
+  border-style: solid;
+  color: #FFF;
+}
+
+.btn-resume:hover, .btn-resume:visited, .btn-resume:link, .btn-resume:active
+{
+  color: white;
+  text-decoration: none;
+}
+
+.about-description {
+  margin: 50px auto;
+  justify-content: center;
+}
+
+.about-description p {
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 35px;
+  color: #5b5f65;
+}
+
+.social-buttons {
+  line-height: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.social-buttons a {
+  font-size: 50px;
+  letter-spacing: 20px;
+}
+
+header.masthead {
+  // TIP: Background images are set within the HTML using inline CSS!
+  margin-bottom: 50px;
+  background: no-repeat center center;
+  background-color: $gray-600;
+  background-attachment: scroll;
+  position: relative;
+  @include background-cover;
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: $gray-900;
+    opacity: 0.5;
+  }
+  .page-heading,
+  .post-heading,
+  .site-heading {
+    padding: 200px 0 150px;
+    color: white;
+    @media only screen and (min-width: 768px) {
+      padding: 200px 0;
+    }
+  }
+  .page-heading,
+  .site-heading {
+    text-align: center;
+    h1 {
+      font-size: 50px;
+      margin-top: 0;
+    }
+    .subheading {
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 1.1;
+      display: block;
+      margin: 10px 0 0;
+      @include sans-serif-font;
+    }
+    @media only screen and (min-width: 768px) {
+      h1 {
+        font-size: 80px;
+      }
+    }
+  }
+  .post-heading {
+    h1 {
+      font-size: 35px;
+    }
+    .meta,
+    .subheading {
+      line-height: 1.1;
+      display: block;
+    }
+    .subheading {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 10px 0 30px;
+      @include sans-serif-font;
+    }
+    .meta {
+      font-size: 20px;
+      font-weight: 300;
+      font-style: italic;
+      @include serif-font;
+      a {
+        color: $white;
+      }
+    }
+    @media only screen and (min-width: 768px) {
+      h1 {
+        font-size: 55px;
+      }
+      .subheading {
+        font-size: 30px;
+      }
+    }
+  }
+}
