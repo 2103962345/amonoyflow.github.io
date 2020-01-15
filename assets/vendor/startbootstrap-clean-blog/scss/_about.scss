@@ -1,0 +1,182 @@
+.header {
+    height: 80vh;
+    background-image: 
+    linear-gradient(to right bottom, 
+     rgba(51, 66, 202, 0.7),
+     rgba(30, 108, 217, 0.7)),
+     url('../../../../img/index-bg.jpg');
+    background-size: cover;
+    background-position: top;
+    position: relative;
+    clip-path: ellipse(100% 55% at 48% 44%);
+  }
+  
+  .text-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  
+  .heading-primary {
+    color: #fff;
+    text-transform: uppercase;
+    backface-visibility: hidden;
+    margin-bottom: 30px;
+  }
+  
+  .heading-primary-main {
+    display: block;
+    font-size: 46px;
+    font-weight: 400;
+    letter-spacing: 3px;
+  }
+  
+  .about-header {
+    display: block;
+    font-size: 40px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-align: center;
+  }
+
+  .btn-resume {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: inline-block;
+    border-radius: 100px;
+    transition: all .2s;
+    position: relative;
+    font-size: 14px;
+    border-color: white;
+    border-width: 1px;
+    border-style: solid;
+    color: #FFF;
+  }
+  
+  .btn-resume:hover, .btn-resume:visited, .btn-resume:link, .btn-resume:active
+  {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .about-description {
+    margin: 50px auto;
+    justify-content: center;
+  }
+  
+  .about-description p {
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 35px;
+    color: #5b5f65;
+  }
+  
+// WORK TIMELINE
+
+.work-experience-header {
+  display: block;
+    font-size: 40px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-align: center;
+}
+
+.work-timeline-container {
+  position: relative;
+  overflow: hidden;
+}
+ 
+.work-timeline-container:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -1px;
+  width: 2px;
+  height: 100%;
+  background: #CCD1D9;
+  z-index: 1
+}
+
+.timeline-block {
+  width: -webkit-calc(50% + 8px);
+  width: -moz-calc(50% + 8px);
+  width: calc(50% + 8px);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -moz-box-pack: justify;
+  justify-content: space-between;
+  clear: both;
+  padding: 20px 0;
+}
+
+.timeline-block-right {
+  float: right;
+}
+
+.timeline-block-left {
+  float: left;
+  direction: rtl;
+  text-align: right;
+}
+
+.marker {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #F5F7FA;
+  background: #4FC1E9;
+  margin-top: 10px;
+  z-index: 9999
+}
+
+.timeline-content {
+  width: 95%;
+  padding: 0 15px;
+  color: #666
+}
+
+.timeline-content h3 {
+  font-size: 20px;
+  font-weight: 500
+}
+
+.timeline-content span {
+  font-size: 16px;
+  color: #a4a4a4;
+}
+
+.timeline-content p {
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+  color: #888;
+}
+
+
+@media screen and (max-width: 768px) {
+  .work-timeline-container:before {
+      left: 8px;
+      width: 2px;
+  }
+  .timeline-block {
+      width: 100%;
+      margin-bottom: 30px;
+  }
+  .timeline-block-right {
+      float: none;
+  }
+
+  .timeline-block-left {
+      float: none;
+      direction: ltr;
+      text-align: left;
+  }
+}

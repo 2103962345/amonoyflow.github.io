@@ -1,82 +1,77 @@
-.header {
-  height: 100vh;
-  background-image: 
-  linear-gradient(to right bottom, 
-   rgba(51, 66, 202, 0.7),
-   rgba(30, 108, 217, 0.7)),
-   url('../../../../img/index-bg.jpg');
-  background-size: cover;
-  background-position: top;
-  position: relative;
-  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+/* #region HOME WAVE HEADER */
+
+.home-header {
+  position:relative;
+  text-align:center;
+  background: linear-gradient(60deg, rgba(84,58,183,1) 0%, rgba(0,172,193,1) 100%);
+  color:white;
 }
 
-.text-box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.inner-header {
+  height: 65vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.flex { 
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
 }
 
-.heading-primary {
-  color: #fff;
-  text-transform: uppercase;
-  backface-visibility: hidden;
-  margin-bottom: 30px;
+.waves {
+  position:relative;
+  width: 100%;
+  height:15vh;
+  margin-bottom:-7px; 
+  min-height:100px;
+  max-height:150px;
 }
 
-.heading-primary-main {
-  display: block;
-  font-size: 46px;
-  font-weight: 400;
-  letter-spacing: 4px;
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(.55,.5,.45,.5) infinite;
+}
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+}
+.parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+}
+.parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+}
+.parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+}
+@keyframes move-forever {
+  0% {
+   transform: translate3d(-90px,0,0);
+  }
+  100% { 
+    transform: translate3d(85px,0,0);
+  }
 }
 
-.btn-resume {
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 10px 20px;
-  display: inline-block;
-  border-radius: 100px;
-  transition: all .2s;
-  position: relative;
-  font-size: 14px;
-  border-color: white;
-  border-width: 1px;
-  border-style: solid;
-  color: #FFF;
+@media (max-width: 768px) {
+  .waves {
+    height:40px;
+    min-height:40px;
+  }
+  .content {
+    height:30vh;
+  }
+  h1 {
+    font-size:24px;
+  }
 }
 
-.btn-resume:hover, .btn-resume:visited, .btn-resume:link, .btn-resume:active
-{
-  color: white;
-  text-decoration: none;
-}
-
-.about-description {
-  margin: 50px auto;
-  justify-content: center;
-}
-
-.about-description p {
-  font-size: 19px;
-  font-weight: 400;
-  line-height: 35px;
-  color: #5b5f65;
-}
-
-.social-buttons {
-  line-height: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.social-buttons a {
-  font-size: 50px;
-  letter-spacing: 20px;
-}
+/* #endregion HOME WAVE HEADER */
 
 header.masthead {
   // TIP: Background images are set within the HTML using inline CSS!
@@ -117,7 +112,6 @@ header.masthead {
       line-height: 1.1;
       display: block;
       margin: 10px 0 0;
-      @include sans-serif-font;
     }
     @media only screen and (min-width: 768px) {
       h1 {
@@ -138,13 +132,11 @@ header.masthead {
       font-size: 24px;
       font-weight: 600;
       margin: 10px 0 30px;
-      @include sans-serif-font;
     }
     .meta {
       font-size: 20px;
       font-weight: 300;
       font-style: italic;
-      @include serif-font;
       a {
         color: $white;
       }
