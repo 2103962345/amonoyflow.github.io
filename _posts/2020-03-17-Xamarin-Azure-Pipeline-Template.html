@@ -1,0 +1,241 @@
+---
+layout: post
+title: "Xamarin Azure Pipeline Template - Android"
+subtitle: "A multi-stage reusable build and release pipeline template for Xamarin Forms."
+date: 2020-03-17 19:28:00
+background: '/img/posts/pipeline-android-template.png'
+---
+
+<style>
+    .post-quickstart p { margin: 10px 0 30px 0; }
+    .section-heading { margin: 60px 0 0 0; }
+    .colored { color: red; font-size: 12px; margin: auto;}
+    .comment { color: green; font-size: 12px; margin: auto;}
+</style>
+
+<p>Recently I've been working on a new mobile application and I noticed that every new mobile project, I always create continuous integration and deployment [CI/CD] pipeline with almost similar steps.</p>
+
+<p>So I've searched a way to have a reusable pipeline, luckily Microsoft provides pipeline <a href="https://docs.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops">template</a> and azure devops supports multi-state setup.
+Below template is my initial template.
+</p>
+
+<h2 class="section-heading">The Xamarin.Forms Android build pipeline</h2>
+<div class="post-quickstart">
+    <p>Below is the template for Xamarin.Forms Android and parameters should be provided once this templated is consumed and each task is executed using the provided parameters.</p>
+    <small>xamarin-android-build.yml</small>
+    <div class="post-parameters">
+        <pre>
+<span class="colored">parameters</span>:
+  <span class="colored">projectName</span>: 'EMPTY'
+  <span class="colored">buildConfiguration</span>: 'EMPTY'
+  <span class="colored">outputDirectory</span>: 'EMPTY'
+  <span class="colored">keystoreFile</span>: 'EMPTY'
+  <span class="colored">keystorePassword</span>: 'EMPTY'
+  <span class="colored">keystoreAlias</span>: 'EMPTY'
+  <span class="colored">keyPassword</span>: 'EMPTY'
+  <span class="colored">netCoreVersion</span>: 'EMPTY'
+  <span class="colored">nugetVersion</span>: 'EMPTY'
+  <span class="colored">version</span>: 'EMPTY'
+
+<span class="colored">jobs</span>:
+  <span class="colored">- job</span>: 
+    <span class="colored">displayName</span>: Building $&#123;&#123; parameters.projectName &#125;&#125;
+    <span class="colored">variables</span>:
+    <span class="colored">- name</span>: manifestPath
+    <span class="colored">value</span>: ''
+    <span class="colored">steps</span>:
+
+    <span class="comment"># Reference assemblies and build system requires .NET Core 3.0.x.</span>
+    <span class="colored">- task</span>: UseDotNet@2
+      <span class="colored">displayName</span>: Use .Net Core sdk $&#123;&#123; parameters.netCoreVersion &#125;&#125;
+      <span class="colored">inputs</span>:
+        <span class="colored">packageType</span>: 'sdk'
+        <span class="colored">version</span>: '$&#123;&#123; parameters.netCoreVersion &#125;&#125;'
+        
+    <span class="comment"># Use Bash to tell what version Xamarin and Mono to use when compiling app.</span>
+    <span class="colored">- task</span>: Bash@3
+      <span class="colored">displayName</span>: Bash script copy Xamarin Android mono
+      <span class="colored">inputs</span>:
+        <span class="colored">targetType</span>: 'inline'
+        <span class="colored">script</span>: |
+          sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh 6_4_0
+    
+    <span class="comment"># Using Nuget version 5.3.1</span>
+    <span class="colored">- task</span>: NuGetToolInstaller@1
+      <span class="colored">displayName</span>: 'Use Nuget $&#123;&#123; parameters.nugetVersion &#125;&#125;'
+      <span class="colored">inputs</span>:
+        <span class="colored">versionSpec</span>: '$&#123;&#123; parameters.nugetVersion &#125;&#125;'
+    
+    <span class="comment"># Download Mono 6.4.0 to build app with C# 8, iOS 13 and Android 10.</span>
+    <span class="colored">- task</span>: Boots@1
+      <span class="colored">displayName</span>: Install Xamarin.Android Mono 6.4
+      <span class="colored">inputs</span>:
+        <span class="colored">uri</span>: 'https://download.mono-project.com/archive/6.4.0/macos-10-universal/MonoFramework-MDK-6.4.0.187.macos10.xamarin.universal.pkg'
+
+    <span class="comment"># Finding AndroidManifest.xml file.</span>
+    <span class="colored">- task</span>: PowerShell@2
+      <span class="colored">displayName</span>: 'Determine the location of AndroidManifest.xml'
+      <span class="colored">inputs</span>:
+        <span class="colored">targetType</span>: 'inline'
+        <span class="colored">script</span>: |
+          Write-Host "Finding Package Manifest (ie AndroidManifest.xml). Set android_manifest_filename parameter to override"
+          $manifest = (Get-ChildItem -Filter "AndroidManifest.xml" -Path "$(System.DefaultWorkingDirectory)" -Recurse | Select-Object -First 1 ).FullName
+          Write-Host "Found at $manifest"
+          Write-Host "##vso[task.setvariable variable=manifestPath]$manifest"
+
+    <span class="comment"># Increment the version number and name of android build.</span>     
+    <span class="colored">- task</span>: android-manifest-version@1
+      <span class="colored">displayName</span>: 'Incrementing application version in $(manifestPath)'
+      <span class="colored">inputs</span>:
+        <span class="colored">sourcePath</span>: '$(manifestPath)'
+        <span class="colored">versionCodeOption</span>: 'buildid'
+        <span class="colored">versionCode</span>: '$(Build.BuildId)'
+        <span class="colored">versionName</span>: '$&#123;&#123; parameters.version &#125;&#125;' 
+        <span class="colored">printFile</span>: true
+
+    <span class="comment"># Restore nuget packages.</span>
+    <span class="colored">- task</span>: NuGetCommand@2
+      <span class="colored">inputs</span>:
+        <span class="colored">command</span>: 'restore'
+        <span class="colored">restoreSolution</span>: '**/*.sln'
+        
+    <span class="comment"># Build Xamarin Android project.</span>
+    <span class="colored">- task</span>: XamarinAndroid@1
+      <span class="colored">displayName</span>: 'Building android project'
+      <span class="colored">inputs</span>:
+        <span class="colored">projectFile</span>: '**/*.Android.csproj'
+        <span class="colored">outputDirectory</span>: $&#123;&#123; parameters.outputDirectory &#125;&#125;
+        <span class="colored">configuration</span>: $&#123;&#123; parameters.buildConfiguration &#125;&#125;
+        
+    <span class="comment"># Singing and aligning APK files.</span>
+    <span class="colored">- task</span>: AndroidSigning@3
+      <span class="colored">displayName</span>: 'Singing and Aligning APK files(s)'
+      <span class="colored">inputs</span>:
+        <span class="colored">apkFiles</span>: '$&#123;&#123; parameters.outputDirectory &#125;&#125;/*.apk'
+        <span class="colored">apksign</span>: true
+        <span class="colored">apksignerKeystoreFile</span>: $&#123;&#123; parameters.keystoreFile &#125;&#125;
+        <span class="colored">apksignerKeystorePassword</span>: $&#123;&#123; parameters.keystorePassword &#125;&#125;
+        <span class="colored">apksignerKeystoreAlias</span>: $&#123;&#123; parameters.keystoreAlias &#125;&#125;
+        <span class="colored">apksignerKeyPassword</span>: $&#123;&#123; parameters.keyPassword &#125;&#125;
+        <span class="colored">apksignerArguments</span>: --out $&#123;&#123; parameters.outputDirectory &#125;&#125;/app.$&#123;&#123; parameters.projectName &#125;&#125;.release.apk
+        <span class="colored">zipalign</span>: true
+    
+    <span class="comment"># Publishing artifact from this stage.</span>
+    <span class="colored">- task</span>: PublishBuildArtifacts@1
+      <span class="colored">displayName</span>: 'Publishing artifact'
+      <span class="colored">inputs</span>:
+        <span class="colored">ArtifactName</span>: build_$&#123;&#123; parameters.projectName &#125;&#125;
+        <span class="colored">PathtoPublish</span>: $&#123;&#123; parameters.outputDirectory &#125;&#125;
+        </pre>
+    </div>
+</div>
+
+<h2 class="section-heading">The Xamarin.Forms release pipeline</h2>
+<div class="post-quickstart">
+    <p>Below is the template for Xamarin.Forms Android and parameters should be provided once this templated is consumed and each task is executed using the provided parameters.</p>
+    <small>xamarin-appcenter-distribute.yml</small>
+    <div class="post-parameters">
+        <pre>
+<span class="colored">parameters</span>:
+  <span class="colored">projectName</span>: 'EMPTY'
+  <span class="colored">outputDirectory</span>: 'EMPTY'
+  <span class="colored">appSlug</span>: 'EMPTY'
+  <span class="colored">serverEndpoint</span>: 'EMPTY'
+
+<span class="colored">jobs</span>:
+  <span class="colored">- job</span>:
+  <span class="colored">displayName</span>: Distributing $&#123;&#123; parameters.projectName &#125;&#125;
+  <span class="colored">steps</span>:
+    <span class="colored">- task</span>: DownloadPipelineArtifact@2
+      <span class="colored">inputs</span>:
+        <span class="colored">artifactName</span>: 'build_$&#123;&#123; parameters.projectName &#125;&#125;'
+        <span class="colored">targetPath</span>: $&#123;&#123; parameters.outputDirectory &#125;&#125;
+
+    <span class="colored">- task</span>: CopyFiles@2
+      <span class="colored">inputs</span>:
+        <span class="colored">sourceFolder</span>: $&#123;&#123; parameters.outputDirectory &#125;&#125;
+        <span class="colored">contents</span>: '**/app.$&#123;&#123; parameters.projectName &#125;&#125;.release.apk'
+        <span class="colored">TargetFolder</span>: '$(Build.ArtifactStagingDirectory)/$&#123;&#123; parameters.projectName &#125;&#125;'
+
+    <span class="colored">- task</span>: PublishBuildArtifacts@1
+      <span class="colored">inputs</span>:
+        <span class="colored">pathtoPublish</span>: '$(Build.ArtifactStagingDirectory)'
+        <span class="colored">artifactName</span>: 'apks'
+        <span class="colored">publishLocation</span>: 'container'
+
+    <span class="colored">- task</span>: AppCenterDistribute@3
+      <span class="colored">inputs</span>:
+        <span class="colored">serverEndpoint</span>: $&#123;&#123; parameters.serverEndpoint &#125;&#125;
+        <span class="colored">appSlug</span>: $&#123;&#123; parameters.appSlug &#125;&#125;
+        <span class="colored">appFile</span>: '$&#123;&#123; parameters.outputDirectory &#125;&#125;/app.$&#123;&#123; parameters.projectName &#125;&#125;.release.apk'
+        <span class="colored">symbolsOption</span>: 'Android'
+        <span class="colored">releaseNotesOption</span>: 'input'
+        <span class="colored">releaseNotesInput</span>: 'New version'
+        <span class="colored">destinationType</span>: 'groups'
+        </pre>
+    </div>
+</div>
+
+<h2 class="section-heading">Consuming the Xamarin.Forms build and release pipeline</h2>
+<div class="post-quickstart">
+    <p>First we need a connection from azure devops to github resources.</p>
+    <div>
+        <p>1. Go to 'Project Settings'</p>
+        <p>2. Click 'New service connection'</p>
+        <p>3. Choose 'GitHub' and click next</p>
+        <img class="img-fluid" src="/img/posts/github-service-connection.PNG" />
+        <p>4. Choose 'Azure Pipelines' on oAuth Configuration and input Service connection name, ex. 'github_service_connection'</p>
+        <img class="img-fluid" src="/img/posts/github-service-configuration.PNG" />
+        <p>5. Create variables to store our secret data</p>
+        <img class="img-fluid" src="/img/posts/azure-devops-variables.PNG" />
+    </div>
+    <br>
+    <p>We have now a variables and connection on github where we stored the template. After that we can now create new yaml pipeline that will consume the template.</p>
+    
+    <h1>Creating multi-stage pipeline</h1>
+    <div class="post-parameters">
+        <pre>
+<span class="colored">resources</span>:
+  <span class="colored">repositories</span>:
+    <span class="colored">- repository</span>: templates
+    <span class="colored">  type</span>: github
+    <span class="colored">  name</span>: xamarin-pipeline-templates
+    <span class="colored">  endpoint</span>: github_service_connection
+
+<span class="colored">stages</span>:
+  <span class="colored">- stage</span>: Build
+    <span class="colored">displayName</span>: Build stage
+    <span class="colored">jobs</span>:
+      <span class="colored">- template</span>: xamarin-android-build.yml@templates
+        <span class="colored">parameters</span>:
+          <span class="colored">projectName</span>: 'planningpoker'
+          <span class="colored">buildConfiguration</span>: 'Release'
+          <span class="colored">outputDirectory</span>: '$(build.binariesDirectory)/$(buildConfiguration)'
+          <span class="colored">keystoreFile</span>: 'planningpoker.keystore'
+          <span class="colored">keystorePassword</span>: $(keystore.password)
+          <span class="colored">keystoreAlias</span>: $(keystore.alias)
+          <span class="colored">keyPassword</span>: $(key.password)
+          <span class="colored">netCoreVersion</span>: '3.0.x'
+          <span class="colored">nugetVersion</span>: '5.3.1'
+          <span class="colored">version</span>: '$(majorVersion).$(minorVersion).$(Build.BuildId)'
+
+  <span class="colored">- stage</span>: Distribute
+    <span class="colored">displayName</span>: Distribute stage
+    <span class="colored">condition</span>: and(succeeded(), eq(variables['deploy'], 'true'))
+    <span class="colored">jobs</span>:
+      <span class="colored">- template</span>: xamarin-android-distribute.yml@templates
+        <span class="colored">parameters</span>:
+          <span class="colored">projectName</span>: planningpoker
+          <span class="colored">outputDirectory</span>: '$(build.binariesDirectory)/$(buildConfiguration)'
+          <span class="colored">appSlug</span>: '$(appSlug)'
+        </pre>  
+    </div>
+</div>  
+
+<h2 class="section-heading">Result</h2>
+<span>If the 'deploy' on our variable is set to 'true', it will deploy to AppCenter</span>
+<img class="img-fluid" src="/img/posts/azure-devops-buildandrelease.PNG" />
+<br>
+<br>
+<span>If the 'deploy' on our variable is set to 'false', it will skip AppCenter deployment</span>
+<img class="img-fluid" src="/img/posts/azure-devops-build.PNG" />

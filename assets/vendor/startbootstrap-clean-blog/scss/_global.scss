@@ -77,9 +77,14 @@ img::-moz-selection {
   background: transparent;
 }
 
-pre, code {
+pre {
   background-color: #eee;
   border: 1px solid #999;
-  display: block;
   padding: 5px;
+  font-size: 12px;
+  // height: auto;
+  // overflow: auto;
+  // word-break: normal !important;
+  // word-wrap: normal !important;
+  // white-space: pre !important;
 }
