@@ -3,10 +3,12 @@
   position: absolute;
   border-bottom: 1px solid $gray-200;
   background-color: white;
-  @include sans-serif-font;
+  animation-name: fadeIn;
+  animation-duration: 1s;
   .navbar-brand {
     font-weight: 800;
-    color: $gray-800;
+    font-size: 40px;
+    font-family: 'DancingScript';
   }
   .navbar-toggler {
     font-size: 12px;
@@ -96,5 +98,18 @@
       -o-transform: translate3d(0, 100%, 0);
       transform: translate3d(0, 100%, 0);
     }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    position: absolute;
+    top: -5rem;
+    opacity: 0;
+  }
+
+  100% {
+    position: absolute;
+    opacity: 1;
   }
 }

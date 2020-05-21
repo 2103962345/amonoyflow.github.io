@@ -6,11 +6,13 @@ baseurl:            ""
 url:                "https://amonoyflow.github.io"
 resume_url:         "https://drive.google.com/file/d/1IgnIxvOWR2I2VmHJMGFA827KJ9Dz_Osc/view"
 
+google_analytics:   UA-165690186-1
+
 # Build settings
 markdown:           kramdown
 paginate:           5
-paginate_path:      "/page:num/"
+paginate_path:      "blog/page:num/"
 plugins:
   - jekyll-feed
   - jekyll-paginate
-  - jekyll-sitemap ## Uncomment this line to silently generate a sitemaps.org compliant sitemap for your Jekyll site
+  - jekyll-sitemap
