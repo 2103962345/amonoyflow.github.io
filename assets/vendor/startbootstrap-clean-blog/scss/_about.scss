@@ -1,93 +1,112 @@
 .header {
-    height: 70vh;
-    background-image: 
-      linear-gradient(to right bottom, 
-      #4481eb,
-      #04befe);
-    background-size: cover;
-    background-position: top;
-    position: relative;
-  }
+  height: 70vh;
+  background-image: 
+    linear-gradient(to right bottom, 
+    #4481eb,
+    #04befe);
+  background-size: cover;
+  background-position: top;
+  position: relative;
+}
   
-  .text-box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-  }
-  
-  .heading-primary {
-    color: #fff;
-    backface-visibility: hidden;
-  }
-  
-  .heading-primary-main {
-    display: block;
-    font-size: 86px;
-    font-weight: 400;
-    letter-spacing: 3px;
-    animation-name: aboutFadeIn;
-    animation-duration: 2s;
-    font-family: 'DancingScript';
-  }
+.text-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
 
-  .sub-header {
-    color: #FFF;
-    font-size: 16px;
-    animation-name: aboutFadeIn;
-    animation-duration: 2s;
-    margin: 0;
-  }
-  
-  .about-header {
-    display: block;
-    font-size: 40px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-align: center;
-  }
+.heading-primary {
+  color: #fff;
+  backface-visibility: hidden;
+}
 
-  .btn-resume {
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 10px 20px;
-    display: inline-block;
-    border-radius: 100px;
-    transition: all .2s;
-    position: relative;
-    font-size: 14px;
-    border-color: white;
-    border-width: 1px;
-    border-style: solid;
-    color: #FFF;
-  }
-  
-  .btn-resume:hover, .btn-resume:visited, .btn-resume:link, .btn-resume:active
-  {
-    color: white;
-    text-decoration: none;
-  }
-  
-  .about-description {
-    margin: 50px auto;
-    justify-content: center;
-  }
-  
-  .about-description p {
-    font-size: 17px;
-    font-weight: 400;
-    line-height: 35px;
-    color: #5b5f65;
-  }
-  
+.heading-primary-main {
+  display: block;
+  font-size: 86px;
+  font-weight: 400;
+  letter-spacing: 3px;
+  animation-name: aboutFadeIn;
+  animation-duration: 2s;
+  font-family: 'DancingScript';
+}
+
+.sub-header {
+  color: #FFF;
+  font-size: 16px;
+  animation-name: aboutFadeIn;
+  animation-duration: 2s;
+  margin: 0;
+}
+
+// ABOUT
+
+.about-header-container {
+  background: linear-gradient(to right, #FFF, #FFF 70%);
+}
+
+.about {
+  display: block;
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-align: center;
+  background: linear-gradient(to right bottom, #4481eb 0%, #04befe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.btn-resume {
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 10px 20px;
+  display: inline-block;
+  border-radius: 100px;
+  transition: all .2s;
+  position: relative;
+  font-size: 14px;
+  border-color: white;
+  border-width: 1px;
+  border-style: solid;
+  color: #FFF;
+}
+
+.btn-resume:hover, .btn-resume:visited, .btn-resume:link, .btn-resume:active
+{
+  color: white;
+  text-decoration: none;
+}
+
+.about-description {
+  margin: 50px auto;
+  justify-content: center;
+}
+
+.about-description p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 35px;
+  color: #5b5f65;
+}
+
+.img-avatar {
+  padding: 10px;
+  display: block;
+  border-radius: 50%;
+  height: 150px;
+  width: 150px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 // WORK TIMELINE
 
 .work-experience-header {
   display: block;
     font-size: 40px;
     font-weight: 600;
-    letter-spacing: 3px;
+    letter-spacing: 35px;
     text-align: center;
 }
 
