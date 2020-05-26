@@ -1,0 +1,43 @@
+.weather-container {
+    width: 100%;
+    height: 70vh;
+    background-color: rosybrown;
+  }
+
+  .about {
+    .container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 2rem;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+    }
+
+    &-image {
+      &__main {
+        width: 80%;
+        height: auto;
+      }
+    }
+
+    &-text {
+      &__main {
+        font-family: inherit;
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: inherit;
+        text-transform: uppercase;
+        color: $blue;
+      }
+
+      &__subs {
+        font-family: inherit;
+        font-size: 1rem;
+        font-weight: 400;
+        text-transform: capitalize;
+        color: $black;
+        margin: 1rem 0 0 0;
+      }
+    }
+  }

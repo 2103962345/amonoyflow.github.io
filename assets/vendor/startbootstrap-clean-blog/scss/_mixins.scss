@@ -60,13 +60,8 @@
   -o-background-size: cover;
   background-size: cover;
 }
-@mixin serif-font() {
-  font-family: 'Lora', 'Times New Roman', serif;
-}
-@mixin sans-serif-font() {
-  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+@mixin roboto-font() {
+  font-family: 'Roboto';
 }
 
-@mixin sacramento() {
-  font-family: 'Sacramento';
-}

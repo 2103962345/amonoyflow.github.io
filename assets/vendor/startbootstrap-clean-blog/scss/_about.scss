@@ -1,211 +1,81 @@
 .header {
-  height: 70vh;
-  background-image: 
-    linear-gradient(to right bottom, 
-    #4481eb,
-    #04befe);
-  background-size: cover;
-  background-position: top;
+  height: 100vh;
+  width: 100%;
+  margin: auto;
   position: relative;
 }
   
 .text-box {
+  width: 80%;
+  margin: auto;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  text-align: center;
+  animation-name: aboutFadeIn;
+  animation-duration: 2s;
 }
 
 .heading-primary {
-  color: #fff;
-  backface-visibility: hidden;
-}
-
-.heading-primary-main {
-  display: block;
-  font-size: 86px;
-  font-weight: 400;
-  letter-spacing: 3px;
-  animation-name: aboutFadeIn;
-  animation-duration: 2s;
-  font-family: 'DancingScript';
+  width: 60%;
+  font-size: 70px;
+  font-weight: 900;
+  text-align: left;
+  margin-bottom: 20px;
 }
 
 .sub-header {
-  color: #FFF;
-  font-size: 16px;
-  animation-name: aboutFadeIn;
-  animation-duration: 2s;
-  margin: 0;
-}
-
-// ABOUT
-
-.about-header-container {
-  background: linear-gradient(to right, #FFF, #FFF 70%);
-}
-
-.about {
-  display: block;
-  font-size: 30px;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-align: center;
-  background: linear-gradient(to right bottom, #4481eb 0%, #04befe 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.btn-resume {
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 10px 20px;
-  display: inline-block;
-  border-radius: 100px;
-  transition: all .2s;
-  position: relative;
-  font-size: 14px;
-  border-color: white;
-  border-width: 1px;
-  border-style: solid;
-  color: #FFF;
-}
-
-.btn-resume:hover, .btn-resume:visited, .btn-resume:link, .btn-resume:active
-{
-  color: white;
-  text-decoration: none;
-}
-
-.about-description {
-  margin: 50px auto;
-  justify-content: center;
-}
-
-.about-description p {
+  padding-left: 5px;
+  text-align: left;
   font-size: 16px;
   font-weight: 400;
-  line-height: 35px;
-  color: #5b5f65;
+  width: 60%;
 }
 
-.img-avatar {
-  padding: 10px;
-  display: block;
-  border-radius: 50%;
-  height: 150px;
-  width: 150px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-// WORK TIMELINE
-
-.work-experience-header {
-  display: block;
-    font-size: 40px;
+@media screen and (max-width: 480px) {
+  .heading-primary {
+    width: 90%;
+    font-size: 32px;
     font-weight: 600;
-    letter-spacing: 35px;
-    text-align: center;
-}
+  }
 
-.work-timeline-container {
-  position: relative;
-  overflow: hidden;
-}
- 
-.work-timeline-container:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 50%;
-  margin-left: -1px;
-  width: 2px;
-  height: 100%;
-  background: #CCD1D9;
-  z-index: 1
-}
+  .text-box {
+    width: 90%;
+  }
 
-.timeline-block {
-  width: -webkit-calc(50% + 8px);
-  width: -moz-calc(50% + 8px);
-  width: calc(50% + 8px);
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -moz-box;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -moz-box-pack: justify;
-  justify-content: space-between;
-  clear: both;
-  padding: 20px 0;
+  .sub-header {
+    font-size: 14px;
+    font-weight: 300;
+    width: 90%;
+  }
 }
-
-.timeline-block-right {
-  float: right;
-}
-
-.timeline-block-left {
-  float: left;
-  direction: rtl;
-  text-align: right;
-}
-
-.marker {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 2px solid #F5F7FA;
-  background: #4FC1E9;
-  margin-top: 10px;
-  z-index: 9999
-}
-
-.timeline-content {
-  width: 95%;
-  padding: 0 15px;
-  color: #666
-}
-
-.timeline-content h3 {
-  font-size: 20px;
-  font-weight: 500
-}
-
-.timeline-content span {
-  font-size: 16px;
-  color: #a4a4a4;
-}
-
-.timeline-content p {
-  font-size: 16px;
-  padding: 0;
-  margin: 0;
-  color: #888;
-}
-
 
 @media screen and (max-width: 768px) {
-  .work-timeline-container:before {
-      left: 8px;
-      width: 2px;
-  }
-  .timeline-block {
-      width: 100%;
-      margin-bottom: 30px;
-  }
-  .timeline-block-right {
-      float: none;
+  .heading-primary {
+    width: 90%;
+    font-size: 40px;
+    font-weight: 600;
   }
 
-  .timeline-block-left {
-      float: none;
-      direction: ltr;
-      text-align: left;
+  .sub-header {
+    font-size: 16px;
+    font-weight: 400;
+    width: 90%;
   }
 }
+
+@media screen and (max-width: 992px) {
+  .heading-primary {
+    font-size: 40px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .heading-primary {
+    font-size: 40px;
+  }
+}
+
 
 @keyframes aboutFadeIn {
   0% {

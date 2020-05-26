@@ -1,10 +1,10 @@
-title:              Florante Amonoy
+title:              Flow Amonoy
 email:              amonoyflow@gmail.com
 description:        A Blog/Portfolio website.
 author:             Flow Amonoy
 baseurl:            ""
 url:                "https://amonoyflow.github.io"
-resume_url:         "https://drive.google.com/file/d/1IgnIxvOWR2I2VmHJMGFA827KJ9Dz_Osc/view"
+icon:               "../../../img/ic_florante.png"
 
 google_analytics:   UA-165690186-1
 
